@@ -3,7 +3,8 @@ header('Content-Type: text/html; charset=utf-8');
 
 include('Database.php');
 $users = new Database('marlin-oop', 'root', '');
-$user = $users->getOne('users', '1');
+$id = $_GET['id'];
+$user = $users->getOne('users', $id);
 // var_dump($user); die;
 ?>
 <!doctype html>
@@ -37,7 +38,7 @@ $user = $users->getOne('users', '1');
           </tr>         
         </tbody>
       </table>
-      <button><a href="/">Users</a></button>
+      <button class="btn btn-primary"><a href="/" class="text-white">На главную</a></button>
     </div>
    
 

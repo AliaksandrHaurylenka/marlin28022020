@@ -23,8 +23,8 @@ $users = $users->getAll('users');
       <table class="table mt-5">
         <thead>
             <tr>
-              <th scope="col">id</th>
-              <th scope="col">First</th>
+              <th scope="col">ID</th>
+              <th scope="col">Имя</th>
               <th scope="col">Email</th>
               <th scope="col">Действия</th>
             </tr>
@@ -36,6 +36,11 @@ $users = $users->getAll('users');
               <td><?= $user['name']; ?></td>
               <td><?= $user['email']; ?></td>
               <td>
+                <button class="btn btn-warning">
+                  <a href="user.php?id=<?= $user['id']; ?>" class="text-white">
+                    Посмотреть
+                  </a>                 
+                </button>
                 <button class="btn btn-primary">
                   <a href="edit.php?id=<?= $user['id']; ?>" class="text-white">
                     Редактировать
@@ -51,8 +56,7 @@ $users = $users->getAll('users');
           <?php endforeach; ?>
         </tbody>
       </table>
-      <button class="btn btn-success mb-5"><a href="userOne.php" class="text-white">Вывод по ID</a></button>
-      <button class="btn btn-secondary mb-5"><a href="insert.php" class="text-white">Добавить</a></button>
+      <button class="btn btn-success mb-5"><a href="insert.php" class="text-white">Добавить</a></button>
    
 
     <!-- Optional JavaScript -->
