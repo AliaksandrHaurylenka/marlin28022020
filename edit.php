@@ -23,7 +23,7 @@ $user = $user->getOne('users', $id);
       <h2 class="mt-5">Обновление данных</h2>
       <form action="update.php" method="post">
       <div class="form-group">
-          <input type="text" class="form-control" id="name" value="<?= $user['id']; ?>" name="id" required>
+          <input type="hidden" class="form-control" id="name" value="<?= $user['id']; ?>" name="id" required>
         </div>
         <div class="form-group">
           <label for="name">Имя</label>

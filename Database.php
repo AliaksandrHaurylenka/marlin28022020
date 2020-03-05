@@ -45,24 +45,24 @@ class Database{
     $request->execute($data);
   }
 
-  function update($table, $name, $email, $id){
-    $request = $this->pdo->prepare("UPDATE $table SET `name` = :name, `email` = :email WHERE `id` = :id" );
-    $request->execute(['name' => $name, 'email' => $email, 'id' => $id]);
-  }
-
-  function updateData($table, $data, $id){
-    // $data_merge = array_merge($data, ['id' => $id]);
-    // var_dump($data_merge); die;
-    // $request = $this->pdo->prepare("UPDATE $table SET `name` = :name, `email` = :email WHERE `id` = :id" );
+  function update($table, $data, $id){
+    //получаем ключи массива вводимых данных
     $keys = array_keys($data);
-    $str_keys = implode(", ", $keys);
-    $request = $this->pdo->prepare("UPDATE $table SET `name` = :name, `email` = :email WHERE `id` = :id" );
+    //ф-я callback для преобразования массива к нужному виду. Напр. `name` = :name, `email` = :email
+    function a ($keys){
+      return $keys." = :".$keys;
+    }
+    //преобразование массива
+    $b = array_map('a', $keys);
+    //объеденение массива в строку
+    $str_keys = implode(", ", $b);
+
+    $request = $this->pdo->prepare("UPDATE $table SET $str_keys WHERE `id` = :id" );
     $data_merge = array_merge($data, ['id' => $id]);
     $request->execute($data_merge);
   }
 
   function delete($table, $id){
-    var_dump($id); die;
     $request = $this->pdo->prepare("DELETE FROM $table WHERE `id` = :id" );
     $request->execute(['id' => $id]);
   }

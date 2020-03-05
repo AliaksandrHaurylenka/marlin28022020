@@ -10,7 +10,7 @@ $id = $_POST['id'];
 if(!empty($name) && !empty($email)){
   $data = ['name' => $name, 'email' => $email];
 
-  $usersUpdate->updateData('users', $data, $id);
+  $usersUpdate->update('users', $data, $id);
 
   header('Location: index.php');
 }else {
