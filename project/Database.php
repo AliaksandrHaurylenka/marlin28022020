@@ -48,7 +48,7 @@ class Database{
     if(!$this->query->execute()){
       $this->error = true;
     }else{
-      $this->results = $this->query->fetchAll(PDO::FETCH_OBJ);
+      $this->results = $this->query->fetchAll(2);
       $this->count = $this->query->rowCount();
     }    
 
@@ -71,15 +71,18 @@ class Database{
         }
       }
     }
-    return false;
+    $sql = "{$action} FROM {$table}";
+    if(!$this->query($sql)->error()){
+      return $this;
+    }
   }
 
-  // public function get($table, $where = []){
-  //   return $this->action('SELECT *', $table, $where);
-  // }
+  public function get($table, $where = []){
+    return $this->action('SELECT *', $table, $where);
+  }
 
-  // public function delete($table, $where = []){
-  //   return $this->action('DELETE', $table, $where);
-  // }
+  public function delete($table, $where = []){
+    return $this->action('DELETE', $table, $where);
+  }
 
 }
