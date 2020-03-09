@@ -55,8 +55,8 @@ class Database{
     return $this;
   }
 
-  public function get($table, $where = []){
-    // if(count($where) === 3){
+  public function action($action, $table, $where = []){
+    if(count($where) === 3){
 
       $operators = ['=', '<', '>', '>=', '<='];
 
@@ -64,14 +64,22 @@ class Database{
       $operator = $where[1];
       $value = $where[2];
 
-      // if(in_array($operator, $operators)){
-        $sql = "SELECT * FROM {$table} WHERE {$field} {$operator} ?";
-        // if(!$this->query($sql, [$value])->error()){
-       return $this->query($sql, [$value]);
-          // return $this;
-        // }
-      // }
-    // }
-    // return false;
+      if(in_array($operator, $operators)){
+        $sql = "{$action} FROM {$table} WHERE {$field} {$operator} ?";
+        if(!$this->query($sql, [$value])->error()){
+          return $this;
+        }
+      }
+    }
+    return false;
   }
+
+  // public function get($table, $where = []){
+  //   return $this->action('SELECT *', $table, $where);
+  // }
+
+  // public function delete($table, $where = []){
+  //   return $this->action('DELETE', $table, $where);
+  // }
+
 }
