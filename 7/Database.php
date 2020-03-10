@@ -45,10 +45,10 @@ class Database{
       }
     }
 
-    if(!$this->query->execute()){
+    if(!$this->query->execute($params)){
       $this->error = true;
     }else{
-      $this->results = $this->query->fetchAll(2);
+      $this->results = $this->query->fetchAll(PDO::FETCH_OBJ);
       $this->count = $this->query->rowCount();
     }    
 
@@ -70,14 +70,14 @@ class Database{
           return $this;
         }
       }
-    }elseif (count($where) === 0) {
+    }
+    elseif (count($where) === 0) {
       $sql = "{$action} FROM {$table}";
       if(!$this->query($sql)->error()){
         return $this;
       }
     }
-    // return $err = "ERROR"; 
-    return false;  
+    return false;
   }
 
   public function get($table, $where = []){
@@ -88,18 +88,37 @@ class Database{
     return $this->action('DELETE', $table, $where);
   }
 
+  // public function insert($table, $fields = []){
+  //   //вытягиваем ключи массива
+  //   $keys = array_keys($fields);
+  //   //объединяем в строку ключи массива через запятую
+  //   $str_keys = "`".implode("`, `", $keys)."`";
+  //   // var_dump($str_keys); die;
+  //   $val = "";
+  //   foreach($fields as $field){
+  //     $val .= "?,";
+  //   }
+  //   $val = rtrim($val, ',');
+  //   // var_dump($val); die;
+
+  //   $sql = "INSERT INTO $table ($str_keys) VALUES ($val)";
+  //   // var_dump($sql); die;
+
+  //   if(!$this->query($sql, $fields)->error()){
+  //     return true;
+  //   }
+
+  //   return false;
+  // }
+
   public function insert($table, $fields = []){
     //вытягиваем ключи массива
     $keys = array_keys($fields);
     //объединяем в строку ключи массива через запятую
     $str_keys = "`".implode("`, `", $keys)."`";
     // var_dump($str_keys); die;
-    $val = "";
-    foreach($fields as $field){
-      $val .= "?,";
-    }
-    $val = rtrim($val, ',');
-    // var_dump($val); die;
+    $val = ":".implode(", :", $keys);
+    // var_dump($str_keys_val); die;
 
     $sql = "INSERT INTO $table ($str_keys) VALUES ($val)";
     // var_dump($sql); die;
