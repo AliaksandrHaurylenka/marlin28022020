@@ -2,12 +2,15 @@
 
 require_once('Database.php');
 
-// var_dump($_POST); die;
+$name = strip_tags(trim($_POST['name']));
+$email = strip_tags(trim($_POST['email']));
 
-
-$data = $_POST;
-
-if(!empty($data)){
+if(!empty($name) && !empty($email)){
+  $data = 
+  [
+    'name' => $name, 
+    'email' => $email
+  ];
 
   Database::getInstance()->insert('users', $data);
 
