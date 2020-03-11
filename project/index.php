@@ -3,12 +3,6 @@ require_once('Database.php');
 
 $users = Database::getInstance()->get('users');
 
-if($users->error()){
-  echo "ERROR";
-}else {
-  // var_dump($users->results());
-  $users->results();
-}
 ?>
 <!doctype html>
 <html lang="en">

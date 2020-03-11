@@ -115,5 +115,24 @@ class Database{
     return $this->results()[0];
   }
 
+  public function update($table, $id, $fields = []){
+
+    $set = '';
+    foreach($fields as $key => $field){
+      $set .= "{$key} = ?,";
+    }
+    $set = rtrim($set, ',');
+    // var_dump($set); die;
+
+    $sql = "UPDATE {$table} SET {$set} WHERE id = {$id}";
+    // var_dump($sql); die;
+
+    if(!$this->query($sql, $fields)->error()){
+      return true;
+    }
+
+    return false;
+  }
+
 
 }

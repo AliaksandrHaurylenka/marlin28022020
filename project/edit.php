@@ -1,10 +1,8 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
-
 require_once('Database.php');
 
 $id = $_GET['id'];
-$users = Database::getInstance()->get("users", ['id', '=', $id]);
+$users = Database::getInstance()->get('users', ['id', '=', $id]);
 
 ?>
 <!doctype html>
@@ -21,24 +19,23 @@ $users = Database::getInstance()->get("users", ['id', '=', $id]);
   </head>
   <body>
     <div class="container">
-      <h2 class="mt-5">Вывод одной записи</h2>
-      <table class="table mt-5">
-        <thead>
-            <tr>
-              <th scope="col">id</th>
-              <th scope="col">First</th>
-              <th scope="col">Email</th>
-            </tr>
-        </thead>
-        <tbody>
-          <tr>          
-            <th scope="row"><?= $users->first()['id']; ?></th>
-            <td><?= $users->first()['name']; ?></td>
-            <td><?= $users->first()['email']; ?></td>      
-          </tr>        
-        </tbody>
-      </table>
-      <button class="btn btn-primary"><a href="/" class="text-white">На главную</a></button>
+      <h2 class="mt-5">Обновление данных</h2>
+      <form action="update.php" method="post">
+        <div class="form-group">
+          <input type="hidden" class="form-control" id="name" value="<?= $users->first()['id'] ?>" name="id" required>
+        </div>
+        <div class="form-group">
+          <label for="name">Имя</label>
+          <input type="text" class="form-control" id="name" value="<?= $users->first()['name'] ?>" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?= $users->first()['email'] ?>" name="email" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Обновить</button>
+      </form>
+      
+      <!-- <button><a href="/">Users</a></button> -->
     </div>
    
 
