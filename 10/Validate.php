@@ -39,15 +39,17 @@ class Validate{
                 $this->addError("{$item} - такое имя существует!");
               }
               break;
-            
-            default:
-              # code...
-              break;
           }
 
         }
       }
     }
+
+    if(empty($this->errors)){
+      $this->passed = true;
+    }
+
+    return $this;
   }
 
   public function addError($error){

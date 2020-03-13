@@ -36,7 +36,7 @@ if(Input::exists()){
       'min' => 6
     ],
 
-    'repeatpassword' => [
+    'repeadpassword' => [
       'required' => true,
       'matches' => 'password'
     ]
@@ -69,7 +69,7 @@ if(Input::exists()){
     </div>
     <div class="form-group">
       <label for="exampleInputEmail1">Email address</label>
-      <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+      <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value="<?= Input::get('email') ?>">
     </div>
     <div class="form-group">
       <label for="exampleInputPassword1">Password</label>
