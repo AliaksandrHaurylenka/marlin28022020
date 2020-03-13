@@ -10,9 +10,42 @@ class Validate{
 
   public function check($source, $items = []){
     foreach($items as $item => $rules){
-      foreach($rules as $rule_value){
+      foreach($rules as $rule => $rule_value){
 
         $value = $source[$item];
+
+        if($rule == 'required' && empty($value)){
+          $this->addError("{$item} is return");
+        }elseif(!empty($value)){
+          switch ($rule) {
+            case 'min':
+              if(strlen($value) < $rule_value){
+                $this->addError("{$item} более {$rule_value} символов");
+              }
+              break;
+            case 'max':
+              if(strlen($value) > $rule_value){
+                $this->addError("{$item} менее {$rule_value} символов");
+              }
+              break;
+            case 'matches':
+              if($value != $source[$rule_value]){
+                $this->addError("{$rule_value} должно совпадать с {$item}");
+              }
+              break;
+            case 'unique':
+              $check = $this->db->get($rule_value, [$item, '=', $value]);
+              if($check->count()){
+                $this->addError("{$item} - такое имя существует!");
+              }
+              break;
+            
+            default:
+              # code...
+              break;
+          }
+
+        }
       }
     }
   }
