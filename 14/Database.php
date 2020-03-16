@@ -14,6 +14,7 @@ class Database{
         Config::get('mysql.username'), 
         Config::get('mysql.password')
       );
+      // var_dump($this->pdo);
     } catch (PDOException $exception) {
       die($exception->getMessage());
     }
@@ -55,7 +56,7 @@ class Database{
     if(!$this->query->execute()){
       $this->error = true;
     }else{
-      $this->results = $this->query->fetchAll(2);
+      $this->results = $this->query->fetchAll(PDO::FETCH_OBJ);
       $this->count = $this->query->rowCount();
     }    
 
@@ -77,14 +78,14 @@ class Database{
           return $this;
         }
       }
-    }elseif (count($where) === 0) {
+    }
+    elseif (count($where) === 0) {
       $sql = "{$action} FROM {$table}";
       if(!$this->query($sql)->error()){
         return $this;
       }
     }
-    // return $err = "ERROR"; 
-    return false;  
+    return false;
   }
 
   public function get($table, $where = []){
@@ -118,6 +119,10 @@ class Database{
     return false;
   }
 
+  public function first(){
+    return $this->results()[0];
+  }
+
   public function update($table, $id, $fields = []){
 
     $set = '';
@@ -137,8 +142,5 @@ class Database{
     return false;
   }
 
-  public function first(){
-    return $this->results()[0];
-  }
 
 }

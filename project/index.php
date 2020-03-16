@@ -1,7 +1,12 @@
 <?php
 require_once('Database.php');
+require_once('Config.php');
+require_once('configurations.php');
+require_once('Users.php');
 
-$users = Database::getInstance()->get('users');
+
+$users = new Users;
+$users->get('users');
 
 ?>
 <!doctype html>
