@@ -1,3 +1,69 @@
+<?php
+session_start();
+
+require_once('configurations.php');
+require_once ('Database.php');
+require_once ('Config.php');
+require_once ('Validate.php');
+require_once ('Input.php');
+require_once ('Token.php');
+require_once ('Session.php');
+require_once ('Users.php');
+require_once ('Redirect.php');
+
+
+
+if(Input::exists()){
+  if(Token::check(Input::get('token'))){
+    
+    $validate = new Validate;
+   
+    $validation = $validate -> check($_POST, [
+      'name' => [
+        'required' => true,
+        'min' => 2,
+        'max' => 100,
+        'unique' => 'users'
+      ],
+  
+      'email' => [
+        'required' => true,
+        'min' => 2,
+        'max' => 30,
+      ],
+  
+      'password' => [
+        'required' => true,
+        'min' => 6
+      ],
+  
+      'repeadpassword' => [
+        'required' => true,
+        'matches' => 'password'
+      ]
+    ]);
+
+    
+    if($validation->passed()){
+      $user = new Users;
+      $user -> create('users', [
+        'name' => strip_tags(trim(Input::get('name'))),
+        'email' => strip_tags(trim(Input::get('email'))),
+        'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT)))
+      ]);
+      Session::flash('success', 'Вы зарегистрированы!');
+      Redirect::to('/project/index.php');
+    } else {
+      foreach($validation->errors() as $error){
+        echo $error . '<br>';
+      }
+    }
+  }
+  
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -12,20 +78,28 @@
   </head>
   <body>
     <div class="container">
-      <h2 class="mt-5">Запись в БД</h2>
-      <form action="create.php" method="post">
+      <h2 class="mt-5">Добавить пользователя</h2>
+      <?= Session::flash('success'); ?>
+      <form action="" method="post">
         <div class="form-group">
-          <label for="name">Имя</label>
-          <input type="text" class="form-control" id="name" placeholder="Имя" name="name">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Введите имя" value="<?= Input::get('name') ?>">
         </div>
         <div class="form-group">
-          <label for="exampleInputEmail1">Email</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" name="email">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Введите email" value="<?= Input::get('email') ?>">
         </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Введите пароль">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword2">Repeat Password</label>
+          <input type="password" name="repeadpassword" class="form-control" id="exampleInputPassword2" placeholder="Повторите пароль">
+        </div>
+        <input type="hidden" name="token" value="<?= Token::generate(); ?>">
         <button type="submit" class="btn btn-primary">Добавить</button>
       </form>
-      
-      <!-- <button><a href="/">Users</a></button> -->
     </div>
    
 

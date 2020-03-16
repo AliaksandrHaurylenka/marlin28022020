@@ -7,18 +7,16 @@ class Users {
     $this->db = Database::getInstance();
   }
 
-  public function create($fields = []){
-    $this->db->insert('users', $fields);
+  public function create($table, $fields = []){
+    $this->db->insert($table, $fields);
   }
 
   public function get($table){
     return $this->db->get($table)->results();
-    // var_dump($this->db->get($table)->results()); die;
   }
 
   public function getOne($table, $where = []){
     return $this->db->get($table, $where)->first();
-    // var_dump($this->db->get($table)->results()); die;
   }
 
 }
