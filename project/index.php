@@ -6,7 +6,7 @@ require_once('Users.php');
 
 
 $users = new Users;
-$users->get('users');
+$users = $users->get('users');
 
 ?>
 <!doctype html>
@@ -34,7 +34,8 @@ $users->get('users');
             </tr>
         </thead>
         <tbody>
-          <?php foreach ($users->results() as $user): ?>
+          
+          <?php foreach ($users as $user): ?>
             <tr>          
               <th scope="row"><?= $user['id']; ?></th>
               <td><?= $user['name']; ?></td>

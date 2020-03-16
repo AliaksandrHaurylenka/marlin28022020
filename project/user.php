@@ -1,10 +1,15 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
 
 require_once('Database.php');
+require_once('Config.php');
+require_once('configurations.php');
+require_once('Users.php');
+
 
 $id = $_GET['id'];
-$users = Database::getInstance()->get("users", ['id', '=', $id]);
+
+$users = new Users;
+$user = $users->getOne("users", ['id', '=', $id]);
 
 ?>
 <!doctype html>
@@ -32,9 +37,9 @@ $users = Database::getInstance()->get("users", ['id', '=', $id]);
         </thead>
         <tbody>
           <tr>          
-            <th scope="row"><?= $users->first()['id']; ?></th>
-            <td><?= $users->first()['name']; ?></td>
-            <td><?= $users->first()['email']; ?></td>      
+            <th scope="row"><?= $user['id']; ?></th>
+            <td><?= $user['name']; ?></td>
+            <td><?= $user['email']; ?></td>      
           </tr>        
         </tbody>
       </table>
