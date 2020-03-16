@@ -1,8 +1,73 @@
 <?php
-require_once('Database.php');
+session_start();
+
+require_once('configurations.php');
+require_once ('Database.php');
+require_once ('Config.php');
+require_once ('Validate.php');
+require_once ('Input.php');
+require_once ('Token.php');
+require_once ('Session.php');
+require_once ('Users.php');
+require_once ('Redirect.php');
+
 
 $id = $_GET['id'];
-$users = Database::getInstance()->get('users', ['id', '=', $id]);
+$users = new Users;
+$users = $users->getOne("users", ['id', '=', $id]);
+
+
+if(Input::exists()){
+  if(Token::check(Input::get('token'))){
+    
+    $validate = new Validate;
+   
+    $validation = $validate -> check($_POST, [
+      'name' => [
+        'required' => true,
+        'min' => 2,
+        'max' => 100,
+        'unique' => 'users'
+      ],
+  
+      'email' => [
+        'required' => true,
+        'min' => 2,
+        'max' => 30,
+        // 'unique' => 'users'
+      ],
+  
+      'password' => [
+        'required' => true,
+        'min' => 6
+      ],
+  
+      'repeadpassword' => [
+        'required' => true,
+        'matches' => 'password'
+      ]
+    ]);
+
+    
+    if($validation->passed()){
+      $user = new Users;
+      $user -> update('users', $id, [
+        'name' => strip_tags(trim(Input::get('name'))),
+        'email' => strip_tags(trim(Input::get('email'))),
+        'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT)))
+      ]);
+      // Session::flash('success', 'Вы зарегистрированы!');
+      Redirect::to('/project/index.php');
+    } else {
+      foreach($validation->errors() as $error){
+        echo $error . '<br>';
+      }
+    }
+  }
+  
+}
+
+// $users = Database::getInstance()->get('users', ['id', '=', $id]);
 
 ?>
 <!doctype html>
@@ -20,18 +85,24 @@ $users = Database::getInstance()->get('users', ['id', '=', $id]);
   <body>
     <div class="container">
       <h2 class="mt-5">Обновление данных</h2>
-      <form action="update.php" method="post">
-        <div class="form-group">
-          <input type="hidden" class="form-control" id="name" value="<?= $users->first()['id'] ?>" name="id" required>
-        </div>
+      <form action="" method="post">
         <div class="form-group">
           <label for="name">Имя</label>
-          <input type="text" class="form-control" id="name" value="<?= $users->first()['name'] ?>" name="name" required>
+          <input type="text" class="form-control" id="name" value="<?= $users['name'] ?>" name="name">
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Email</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?= $users->first()['email'] ?>" name="email" required>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?= $users['email'] ?>" name="email">
         </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Введите пароль">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword2">Repeat Password</label>
+          <input type="password" name="repeadpassword" class="form-control" id="exampleInputPassword2" placeholder="Повторите пароль">
+        </div>
+        <input type="hidden" name="token" value="<?= Token::generate(); ?>">
         <button type="submit" class="btn btn-primary">Обновить</button>
       </form>
       

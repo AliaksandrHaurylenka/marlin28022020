@@ -1,7 +1,12 @@
 <?php
-require_once('Database.php');
+require_once('configurations.php');
+require_once ('Database.php');
+require_once ('Config.php');
+require_once ('Users.php');
+require_once ('Redirect.php');
 
 $id = $_GET['id'];
-$users = Database::getInstance()->delete('users', ['id', '=', $id]);
+$users = new Users;
+$users->delete('users', ['id', '=', $id]);
 
-header('Location: index.php');
+Redirect::to('index.php');
