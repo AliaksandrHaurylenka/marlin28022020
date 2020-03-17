@@ -27,23 +27,22 @@ if(Input::exists()){
         'required' => true,
         'min' => 2,
         'max' => 100,
-        'unique' => 'users'
       ],
   
       'email' => [
         'required' => true,
         'min' => 2,
         'max' => 30,
-        // 'unique' => 'users'
+        'unique' => 'users'
       ],
   
       'password' => [
-        'required' => true,
+        // 'required' => true,
         'min' => 6
       ],
   
       'repeadpassword' => [
-        'required' => true,
+        // 'required' => true,
         'matches' => 'password'
       ]
     ]);

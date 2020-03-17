@@ -36,7 +36,7 @@ class Validate{
             case 'unique':
               $check = $this->db->get($rule_value, [$item, '=', $value]);
               if($check->count()){
-                $this->addError("{$item} - такое имя существует!");
+                $this->addError("{$item} - такая запись уже существует!");
               }
               break;
           }
