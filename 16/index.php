@@ -1,5 +1,7 @@
 <?php
+require_once('init.php');
 
+var_dump(Config::get('session.user_session'));
 
 ?>
 <!DOCTYPE html>
@@ -12,5 +14,6 @@
 </head>
 <body class="container mt-5">
   <button class="btn btn-success"><a href="register.php" class="text-white">Регистрация</a></button>
+  <button class="btn btn-primary"><a href="login.php" class="text-white">Войти</a></button>
 </body>
 </html>
