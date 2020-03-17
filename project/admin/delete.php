@@ -1,12 +1,9 @@
 <?php
-require_once('configurations.php');
-require_once ('Database.php');
-require_once ('Config.php');
-require_once ('Users.php');
-require_once ('Redirect.php');
+require_once('../init.php');
+
 
 $id = $_GET['id'];
-$users = new Users;
+$users = new User;
 $users->delete('users', ['id', '=', $id]);
 
-Redirect::to('index.php');
+Redirect::to('/project');
