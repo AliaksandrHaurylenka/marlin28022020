@@ -6,4 +6,4 @@ $id = $_GET['id'];
 $users = new User;
 $users->delete('users', ['id', '=', $id]);
 
-Redirect::to('/project');
+Redirect::to('/project/admin/usersAll.php');

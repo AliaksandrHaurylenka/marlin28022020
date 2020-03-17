@@ -20,6 +20,9 @@ $users = $users->get('users');
   <body>
     <div class="container">
       <h2 class="mt-5">Вывод полной базы</h2>
+      <div class="alert alert-success" role="alert">
+        <?= Session::flash('success'); ?>
+      </div>
       <table class="table mt-5">
         <thead>
             <tr>
@@ -57,7 +60,8 @@ $users = $users->get('users');
           <?php endforeach; ?>
         </tbody>
       </table>
-      <button class="btn btn-success mb-5"><a href="insert.php" class="text-white">Добавить</a></button>
+      <button class="btn btn-success"><a href="insert.php" class="text-white">Добавить</a></button>
+      <button class="btn btn-primary"><a href="/project" class="text-white">На главную</a></button>
    
 
     <!-- Optional JavaScript -->

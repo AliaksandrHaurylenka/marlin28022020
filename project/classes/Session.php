@@ -22,7 +22,9 @@ class Session {
   public static function flash($name, $string = ''){
     if(self::exists($name) && self::get($name) !== ''){
       $session = self::get($name);
+      // var_dump($session); die;
       self::delete($name);
+      // var_dump($session); die;
       return $session;
     }else {
       self::put($name, $string);

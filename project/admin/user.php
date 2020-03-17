@@ -1,14 +1,10 @@
 <?php
 
-require_once('Database.php');
-require_once('Config.php');
-require_once('configurations.php');
-require_once('Users.php');
-
+require_once('../init.php');
 
 $id = $_GET['id'];
 
-$users = new Users;
+$users = new User;
 $user = $users->getOne("users", ['id', '=', $id]);
 
 ?>
@@ -43,7 +39,7 @@ $user = $users->getOne("users", ['id', '=', $id]);
           </tr>        
         </tbody>
       </table>
-      <button class="btn btn-primary"><a href="/" class="text-white">На главную</a></button>
+      <button class="btn btn-primary"><a href="/project/admin/usersAll.php" class="text-white">На главную</a></button>
     </div>
    
 

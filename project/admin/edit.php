@@ -1,19 +1,8 @@
 <?php
-session_start();
-
-require_once('configurations.php');
-require_once ('Database.php');
-require_once ('Config.php');
-require_once ('Validate.php');
-require_once ('Input.php');
-require_once ('Token.php');
-require_once ('Session.php');
-require_once ('Users.php');
-require_once ('Redirect.php');
-
+require_once('../init.php');
 
 $id = $_GET['id'];
-$users = new Users;
+$users = new User;
 $users = $users->getOne("users", ['id', '=', $id]);
 
 
@@ -49,7 +38,7 @@ if(Input::exists()){
 
     
     if($validation->passed()){
-      $user = new Users;
+      $user = new User;
       $user -> update('users', $id, [
         'name' => strip_tags(trim(Input::get('name'))),
         'email' => strip_tags(trim(Input::get('email'))),
@@ -81,8 +70,7 @@ if(Input::exists()){
 
     <title>Hello, ООП!</title>
   </head>
-  <body>
-    <div class="container">
+  <body class="container">
       <h2 class="mt-5">Обновление данных</h2>
       <form action="" method="post">
         <div class="form-group">
@@ -103,10 +91,8 @@ if(Input::exists()){
         </div>
         <input type="hidden" name="token" value="<?= Token::generate(); ?>">
         <button type="submit" class="btn btn-primary">Обновить</button>
+        <button class="btn btn-success"><a href="/project/admin/usersAll.php" class="text-white">Назад</a></button>
       </form>
-      
-      <!-- <button><a href="/">Users</a></button> -->
-    </div>
    
 
     <!-- Optional JavaScript -->

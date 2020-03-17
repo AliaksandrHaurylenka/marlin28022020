@@ -1,17 +1,5 @@
 <?php
-session_start();
-
-require_once('configurations.php');
-require_once ('Database.php');
-require_once ('Config.php');
-require_once ('Validate.php');
-require_once ('Input.php');
-require_once ('Token.php');
-require_once ('Session.php');
-require_once ('Users.php');
-require_once ('Redirect.php');
-
-
+require_once('../init.php');
 
 if(Input::exists()){
   if(Token::check(Input::get('token'))){
@@ -45,14 +33,16 @@ if(Input::exists()){
 
     
     if($validation->passed()){
-      $user = new Users;
+      $user = new User;
       $user -> create('users', [
         'name' => strip_tags(trim(Input::get('name'))),
         'email' => strip_tags(trim(Input::get('email'))),
         'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT)))
       ]);
-      Session::flash('success', 'Вы зарегистрированы!');
-      Redirect::to('/project/index.php');
+      Session::flash('success', 'Добавлен новый пользователь!');
+      // $session = Session::flash('success', 'Добавлен новый пользователь!');
+      // var_dump($session); die;
+      Redirect::to('/project/admin/usersAll.php');
     } else {
       foreach($validation->errors() as $error){
         echo $error . '<br>';
@@ -76,10 +66,9 @@ if(Input::exists()){
 
     <title>Hello, ООП!</title>
   </head>
-  <body>
-    <div class="container">
+  <body class="container mt-5">
+    
       <h2 class="mt-5">Добавить пользователя</h2>
-      <?= Session::flash('success'); ?>
       <form action="" method="post">
         <div class="form-group">
           <label for="name">Name</label>
@@ -99,8 +88,8 @@ if(Input::exists()){
         </div>
         <input type="hidden" name="token" value="<?= Token::generate(); ?>">
         <button type="submit" class="btn btn-primary">Добавить</button>
+        <button class="btn btn-success"><a href="/project/admin/usersAll.php" class="text-white">Назад</a></button>
       </form>
-    </div>
    
 
     <!-- Optional JavaScript -->
