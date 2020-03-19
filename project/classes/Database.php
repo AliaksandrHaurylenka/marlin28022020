@@ -55,7 +55,8 @@ class Database{
     if(!$this->query->execute()){
       $this->error = true;
     }else{
-      $this->results = $this->query->fetchAll(2);
+      // $this->results = $this->query->fetchAll(2);
+      $this->results = $this->query->fetchAll(PDO::FETCH_OBJ);
       $this->count = $this->query->rowCount();
     }    
 

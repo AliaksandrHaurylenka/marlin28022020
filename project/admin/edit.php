@@ -26,12 +26,10 @@ if(Input::exists()){
       ],
   
       'password' => [
-        // 'required' => true,
         'min' => 6
       ],
   
       'repeadpassword' => [
-        // 'required' => true,
         'matches' => 'password'
       ]
     ]);
@@ -45,7 +43,7 @@ if(Input::exists()){
         'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT)))
       ]);
       // Session::flash('success', 'Вы зарегистрированы!');
-      Redirect::to('/project/index.php');
+      Redirect::to('usersAll.php');
     } else {
       foreach($validation->errors() as $error){
         echo $error . '<br>';
@@ -54,8 +52,6 @@ if(Input::exists()){
   }
   
 }
-
-// $users = Database::getInstance()->get('users', ['id', '=', $id]);
 
 ?>
 <!doctype html>
@@ -75,11 +71,11 @@ if(Input::exists()){
       <form action="" method="post">
         <div class="form-group">
           <label for="name">Имя</label>
-          <input type="text" class="form-control" id="name" value="<?= $users['name'] ?>" name="name">
+          <input type="text" class="form-control" id="name" value="<?= $users->name; ?>" name="name">
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Email</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?= $users['email'] ?>" name="email">
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?= $users->email; ?>" name="email">
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>

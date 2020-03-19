@@ -33,9 +33,9 @@ $user = $users->getOne("users", ['id', '=', $id]);
         </thead>
         <tbody>
           <tr>          
-            <th scope="row"><?= $user['id']; ?></th>
-            <td><?= $user['name']; ?></td>
-            <td><?= $user['email']; ?></td>      
+            <th scope="row"><?= $user->id; ?></th>
+            <td><?= $user->name; ?></td>
+            <td><?= $user->email; ?></td>      
           </tr>        
         </tbody>
       </table>

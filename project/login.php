@@ -18,11 +18,13 @@ if(Input::exists()){
   
     if($validation->passed()){
       $user = new User;
-      $login = $user->login(strip_tags(trim(Input::get('email'))), strip_tags(trim(Input::get('password'))));
+      $remember = (Input::get('remember')) === 'on' ? true : false;
+      $login = $user->login(strip_tags(trim(Input::get('email'))), strip_tags(trim(Input::get('password'))), $remember);
+      // var_dump($login); die;
       if($login){
-        echo 'login OK';
+        Redirect::to('index.php');
       }else {
-        echo "login NO";
+        echo "Вы не зарегестрированы!";
       }
     } else {
       foreach($validation->errors() as $error){
@@ -53,8 +55,12 @@ if(Input::exists()){
       <label for="exampleInputPassword1">Password</label>
       <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
     </div>
+    <div class="form-check mb-3">
+      <input type="checkbox" name="remember" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">запомнить меня</label>
+    </div>
     <input type="hidden" name="token" value="<?= Token::generate(); ?>">
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Войти</button>
   </form>
 </body>
 </html>

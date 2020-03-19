@@ -36,22 +36,22 @@ $users = $users->get('users');
           
           <?php foreach ($users as $user): ?>
             <tr>          
-              <th scope="row"><?= $user['id']; ?></th>
-              <td><?= $user['name']; ?></td>
-              <td><?= $user['email']; ?></td>
+              <th scope="row"><?= $user->id; ?></th>
+              <td><?= $user->name; ?></td>
+              <td><?= $user->email; ?></td>
               <td>
                 <button class="btn btn-warning">
-                  <a href="user.php?id=<?= $user['id']; ?>" class="text-white">
+                  <a href="user.php?id=<?= $user->id; ?>" class="text-white">
                     Посмотреть
                   </a>                 
                 </button>
                 <button class="btn btn-primary">
-                  <a href="edit.php?id=<?= $user['id']; ?>" class="text-white">
+                  <a href="edit.php?id=<?= $user->id; ?>" class="text-white">
                     Редактировать
                   </a>                 
                 </button>
                 <button class="btn btn-danger">
-                  <a href="delete.php?id=<?= $user['id']; ?>" class="text-white">
+                  <a href="delete.php?id=<?= $user->id; ?>" class="text-white">
                     Удалить
                   </a>
                 </button>
