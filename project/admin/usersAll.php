@@ -1,8 +1,8 @@
 <?php
 require_once('../init.php');
 
-$users = new User;
-$users = $users->get('users');
+$user = new User;
+$users = $user->get('users');
 
 ?>
 <!doctype html>
@@ -19,7 +19,9 @@ $users = $users->get('users');
   </head>
   <body>
     <div class="container">
-      <h2 class="mt-5">Вывод полной базы</h2>
+      <h1 class="mt-5">Привет, <?= $user->data()->name; ?></h1>
+      <button class="btn btn-defaul"><a href='../logout.php'>Logout</a></button>
+      <h2 class="mt-5">Users</h2>
       <div class="alert alert-success" role="alert">
         <?= Session::flash('success'); ?>
       </div>
@@ -32,8 +34,7 @@ $users = $users->get('users');
               <th scope="col">Действия</th>
             </tr>
         </thead>
-        <tbody>
-          
+        <tbody>          
           <?php foreach ($users as $user): ?>
             <tr>          
               <th scope="row"><?= $user->id; ?></th>

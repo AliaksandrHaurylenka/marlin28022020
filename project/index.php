@@ -22,6 +22,7 @@
   <?php else: ?>
     <button class="btn btn-success"><a href="register.php" class="text-white">Регистрация</a></button>
     <button class="btn btn-primary"><a href="login.php" class="text-white">Войти</a></button>
+    <?php //Redirect::to('index.php'); ?>
   <?php endif; ?> 
 </body>
 </html>
