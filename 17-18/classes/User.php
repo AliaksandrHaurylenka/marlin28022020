@@ -17,6 +17,8 @@ class User {
           $this->logout();
         }
       }     
+    }else {
+      $this->find($user);
     }
   }
 
@@ -40,6 +42,7 @@ class User {
   public function find($value = null){
     if(is_numeric($value)){
       $this->data = $this->db->get('users', ['id', '=', $value])->first();
+      var_dump($this->data); die;
     }else {
       $this->data = $this->db->get('users', ['email', '=', $value])->first();
     }

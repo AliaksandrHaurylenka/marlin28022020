@@ -3,7 +3,8 @@ require_once('init.php');
 
 // var_dump(Config::get('session.user_session'));
 
-$user = new User;
+$user = new User(1);
+// var_dump($user); die;
 
 ?>
 <!DOCTYPE html>

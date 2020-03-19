@@ -18,6 +18,8 @@ class User {
           $this->logout();
         }
       }     
+    }else {
+      $this->find($user);
     }
   }
 
@@ -27,7 +29,7 @@ class User {
 
   public function login($email = null, $password = null, $remember = false){
     if(!$email && !$password && $this->exists()){
-      var_dump($this->exists());
+      // var_dump($this->exists());
       Session::put($this->session_name, $this->data()->id);
     }else {
       $user = $this->find($email);
@@ -84,7 +86,7 @@ class User {
     return Session::delete($this->session_name);
   }
 
-  // public function exists(){
-    // return $this->cookieName;
-  // }
+  public function exists(){
+    return ($this->data) ? true : false;
+  }
 }
