@@ -83,7 +83,9 @@ class User {
   }
 
   public function logout(){
-    return Session::delete($this->session_name);
+    Session::delete($this->session_name);
+    Cookie::delete($this->cookieName);
+    return $this;
   }
 
   public function exists(){
