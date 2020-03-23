@@ -27,23 +27,18 @@ if(Input::exists()){
       'repeadpassword' => [
         'required' => true,
         'matches' => 'password'
-      ],
-
-      'date' => [
-        'required' => true,
-      ],
+      ]
     ]);
   
     if($validation->passed()){
       $user = new User;
-      $user -> create('users', [
+      $user -> create([
         'name' => strip_tags(trim(Input::get('name'))),
         'email' => strip_tags(trim(Input::get('email'))),
-        'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT))),
-        'date' => Input::get('date')
+        'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT)))
       ]);
-      Session::flash('success', 'Вы зарегестрированы!');
-      Redirect::to('/project');
+      Session::flash('success', 'register');
+      Redirect::to('/');
     } else {
       foreach($validation->errors() as $error){
         echo $error . '<br>';
@@ -63,14 +58,15 @@ if(Input::exists()){
   <title>Document</title>
 </head>
 <body class="container mt-5">
+  <?= Session::flash('success'); ?>
   <form action="" method="post">
     <div class="form-group">
       <label for="name">Name</label>
-      <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="<?= Input::get('name') ?>">
+      <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp" placeholder="Enter name" value="<?= Input::get('name') ?>">
     </div>
     <div class="form-group">
       <label for="exampleInputEmail1">Email address</label>
-      <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="<?= Input::get('email') ?>">
+      <input type="text" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value="<?= Input::get('email') ?>">
     </div>
     <div class="form-group">
       <label for="exampleInputPassword1">Password</label>
@@ -79,10 +75,6 @@ if(Input::exists()){
     <div class="form-group">
       <label for="exampleInputPassword2">Repeat Password</label>
       <input type="password" name="repeadpassword" class="form-control" id="exampleInputPassword2" placeholder="Repeat Password">
-    </div>
-    <div class="form-group">
-      <label for="date">Дата</label>
-      <input type="date" name="date" class="form-control" id="date">
     </div>
     <input type="hidden" name="token" value="<?= Token::generate(); ?>">
     <button type="submit" class="btn btn-primary">Submit</button>
