@@ -1,53 +1,53 @@
 <?php
-require_once('init.php');
+  require_once('init.php');
 
-$user = new User;
+  $user = new User;
 
 
-if(Input::exists()){
-  if(Token::check(Input::get('token'))){
+  if(Input::exists()){
+    if(Token::check(Input::get('token'))){
+      
+      $validate = new Validate;
     
-    $validate = new Validate;
-   
-    $validation = $validate -> check($_POST, [
-  
-      'oldpassword' => [
-        'required' => true,
-        'min' => 6
-      ],
-
-      'password' => [
-        'required' => true,
-        'min' => 6
-      ],
-  
-      'repeadpassword' => [
-        'matches' => 'password',
-        'required' => true,
-      ]
-    ]);
-
+      $validation = $validate -> check($_POST, [
     
-    if($validation->passed()){
+        'oldpassword' => [
+          'required' => true,
+          'min' => 6
+        ],
 
-      if(password_verify(Input::get('oldpassword'), $user->data()->password)){
-        $user->update('users', $id, 
-          [
-            'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT)))
-          ]);
-          Session::flash('success', 'Пароль обновлен!');
-          Redirect::to('index.php');
+        'password' => [
+          'required' => true,
+          'min' => 6
+        ],
+    
+        'repeadpassword' => [
+          'matches' => 'password',
+          'required' => true,
+        ]
+      ]);
+
+      
+      if($validation->passed()){
+
+        if(password_verify(Input::get('oldpassword'), $user->data()->password)){
+          $user->update('users', $id, 
+            [
+              'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT)))
+            ]);
+            Session::flash('success', 'Пароль обновлен!');
+            Redirect::to('index.php');
+        } else {
+          echo "Пароль старый не совпадает!";
+        }
       } else {
-        echo "Пароль старый не совпадает!";
-      }
-    } else {
-      foreach($validation->errors() as $error){
-        echo $error . '<br>';
+        foreach($validation->errors() as $error){
+          echo $error . '<br>';
+        }
       }
     }
+    
   }
-  
-}
 
 ?>
 <!doctype html>

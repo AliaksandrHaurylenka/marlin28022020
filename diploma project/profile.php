@@ -2,6 +2,42 @@
   require_once('init.php');
 
   $user = new User;
+
+  if(Input::exists()){
+    if(Token::check(Input::get('token'))){
+      
+      $validate = new Validate;
+     
+      $validation = $validate -> check($_POST, [
+        'name' => [
+          'required' => true,
+          'min' => 2,
+          'max' => 100,
+        ],
+    
+        'status' => [
+          'min' => 6,
+          'max' => 100,
+        ],
+    
+      ]);
+  
+      
+      if($validation->passed()){
+        $user -> update('users', $user->data()->id, [
+          'name' => strip_tags(trim(Input::get('name'))),
+          'status' => strip_tags(trim(Input::get('status')))
+        ]);
+        // Session::flash('success', 'Вы зарегистрированы!');
+        Redirect::to('profile.php');
+      } else {
+        foreach($validation->errors() as $error){
+          echo $error . '<br>';
+        }
+      }
+    }
+    
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,8 +101,10 @@
            </div>
            <div class="form-group">
              <label for="status">Статус</label>
-             <input type="text" id="status" class="form-control" value="<?= $user->data()->status; ?>">
+             <input type="text" id="status" name="status" class="form-control" value="<?= $user->data()->status; ?>">
            </div>
+
+           <input type="hidden" name="token" value="<?= Token::generate(); ?>">
 
            <div class="form-group">
              <button class="btn btn-warning">Обновить</button>

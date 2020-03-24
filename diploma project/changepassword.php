@@ -1,3 +1,55 @@
+<?php
+  require_once('init.php');
+
+  $user = new User;
+
+
+  if(Input::exists()){
+    if(Token::check(Input::get('token'))){
+      
+      $validate = new Validate;
+    
+      $validation = $validate -> check($_POST, [
+    
+        'oldpassword' => [
+          'required' => true,
+          'min' => 6
+        ],
+
+        'password' => [
+          'required' => true,
+          'min' => 6
+        ],
+    
+        'repeadpassword' => [
+          'matches' => 'password',
+          'required' => true,
+        ]
+      ]);
+
+      
+      if($validation->passed()){
+
+        if(password_verify(Input::get('oldpassword'), $user->data()->password)){
+          $user->update('users', $user->data()->id, 
+            [
+              'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT)))
+            ]);
+            Session::flash('success', 'Пароль обновлен!');
+            Redirect::to('index.php');
+        } else {
+          echo "Пароль старый не совпадает!";
+        }
+      } else {
+        foreach($validation->errors() as $error){
+          echo $error . '<br>';
+        }
+      }
+    }
+    
+  }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,10 +73,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Главная</a>
+            <a class="nav-link" href="index.php">Главная</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Управление пользователями</a>
+            <a class="nav-link" href="users/index.php">Управление пользователями</a>
           </li>
         </ul>
 
@@ -33,7 +85,7 @@
             <li class="nav-item">
               <a href="profile.html" class="nav-link">Профиль</a>
             </li>
-            <a href="#" class="nav-link">Выйти</a>
+            <a href="logout.php" class="nav-link">Выйти</a>
           </li>
         </ul>
       </div>
@@ -53,20 +105,20 @@
          <ul>
            <li><a href="profile.html">Изменить профиль</a></li>
          </ul>
-         <form action="" class="form">
+         <form action="" method="post" class="form">
            <div class="form-group">
              <label for="current_password">Текущий пароль</label>
-             <input type="password" id="current_password" class="form-control">
+             <input type="password" id="current_password" name="oldpassword" class="form-control">
            </div>
            <div class="form-group">
              <label for="current_password">Новый пароль</label>
-             <input type="password" id="current_password" class="form-control">
+             <input type="password" id="current_password" name="password" class="form-control">
            </div>
            <div class="form-group">
              <label for="current_password">Повторите новый пароль</label>
-             <input type="password" id="current_password" class="form-control">
+             <input type="password" id="current_password" name="repeadpassword" class="form-control">
            </div>
-
+           <input type="hidden" name="token" value="<?= Token::generate(); ?>">
            <div class="form-group">
              <button class="btn btn-warning">Изменить</button>
            </div>

@@ -39,6 +39,9 @@
         <ul class="navbar-nav">
         <?php if($user->isLoggedIn()): ?>
           <li class="nav-item">
+            <a href="profile.php" class="nav-link">Профиль</a>
+          </li>
+          <li class="nav-item">
             <a href="logout.php" class="nav-link">Выйти</a>
           </li>
         <?php else: ?>
