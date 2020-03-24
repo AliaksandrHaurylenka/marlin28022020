@@ -34,17 +34,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `date` timestamp NOT NULL,
   `group_id` int(11) NOT NULL DEFAULT '1',
   `password` varchar(60) DEFAULT NULL,
+  `status` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
 
--- Дамп данных таблицы marlin-oop.users: ~4 rows (приблизительно)
+-- Дамп данных таблицы marlin-oop.users: ~2 rows (приблизительно)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `name`, `email`, `date`, `group_id`, `password`) VALUES
-	(9, 'Александр Гавриленко', 'goric0312@mail.ru', '2020-03-23 00:00:00', 1, '$2y$10$sRt8s4M3cKpm8S4.tnDEIe2Op8BKBBOB.pr8w3evGKteVreMnB7y2'),
-	(10, 'Aliaksandr Gavrilenko', 'goric031278@mail.ru', '2020-03-22 00:00:00', 1, '$2y$10$AJaDlRU8q4vh3efEtTI12OcCSD96eb7RHpDNUygP0nlTehwQVEXRa'),
-	(11, 'Александр Гавр', 'goric03121978@mail.ru', '2020-03-21 00:00:00', 1, '$2y$10$FhyckO2Zw4lM69E8EQV7NOuiMD.oRajthvPHRFgWnTNYjc8ZqPDXG'),
-	(12, 'Александр Гаврил', 'g0312@mail.ru', '2020-03-23 00:00:00', 1, '$2y$10$ifJRvMqW0tpYUtDygbBx.u3t5L06CCglTeKrKD6p/Xvxei4Px81BG'),
-	(13, 'Alex', 'go0312@mail.ru', '2020-03-18 00:00:00', 1, '$2y$10$nFBHtGi/xDCWDKXReaRV3uoEITVSuwLimCIwZTosWdjXIdOWdr/mO');
+INSERT INTO `users` (`id`, `name`, `email`, `date`, `group_id`, `password`, `status`) VALUES
+	(9, 'Александр Гавриленко', 'goric0312@mail.ru', '2020-03-23 00:00:00', 1, '$2y$10$sRt8s4M3cKpm8S4.tnDEIe2Op8BKBBOB.pr8w3evGKteVreMnB7y2', NULL),
+	(12, 'Александр Гаврил', 'g0312@mail.ru', '2020-03-23 00:00:00', 1, '$2y$10$ifJRvMqW0tpYUtDygbBx.u3t5L06CCglTeKrKD6p/Xvxei4Px81BG', NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Дамп структуры для таблица marlin-oop.user_session
@@ -55,13 +53,8 @@ CREATE TABLE IF NOT EXISTS `user_session` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 
--- Дамп данных таблицы marlin-oop.user_session: ~2 rows (приблизительно)
+-- Дамп данных таблицы marlin-oop.user_session: ~4 rows (приблизительно)
 /*!40000 ALTER TABLE `user_session` DISABLE KEYS */;
-INSERT INTO `user_session` (`id`, `user_id`, `hash`) VALUES
-	(8, 4, '6dbed6a5cf8e434642374d8f09d506f14b155fb147c944411b76c7f58e60b363'),
-	(9, 5, '5d49e6ae0441d115414226c04b380f39b5448dcfbc1d94f1a8adbf1a91a4999d'),
-	(10, 7, '861e7746737aca1051753d80d2d176edd92c13f738981c05f48b5ebffc95ca57'),
-	(11, 12, 'e3e062749858667e832e99b6321a71a20d01157d38e6a3bc267391ed617547d8');
 /*!40000 ALTER TABLE `user_session` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
