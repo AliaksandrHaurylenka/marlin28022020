@@ -1,3 +1,13 @@
+<?php
+    require_once('init.php');
+
+    $id = $_GET['id'];
+    $user = new User;
+    
+    $user = $user->getOne("users", ['id', '=', $id]);
+    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,16 +31,16 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Главная</a>
+            <a class="nav-link" href="index.php">Главная</a>
           </li>
         </ul>
 
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a href="#" class="nav-link">Войти</a>
+            <a href="login.php" class="nav-link">Войти</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">Регистрация</a>
+            <a href="register.php" class="nav-link">Регистрация</a>
           </li>
         </ul>
       </div>
@@ -49,12 +59,12 @@
            </thead>
 
            <tbody>
-             <tr>
-               <td>2</td>
-               <td>Джон</td>
-               <td>25/02/2025</td>
-               <td>Привет! Я новый пользователь вашего проекта, хочу перейти на уровень 3!</td>
-             </tr>
+            <tr>
+              <td><?= $user->id; ?></td>
+              <td><?= $user->name; ?></td>
+              <td><?= $user->date; ?></td>
+              <td><?= $user->status; ?></td>
+            </tr>
            </tbody>
          </table>
 

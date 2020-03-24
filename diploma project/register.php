@@ -95,10 +95,6 @@
           </div>
         <?php endif; ?>
 
-        <div class="alert alert-info">
-          Информация
-        </div>
-
     	  <div class="form-group">
           <input type="email" class="form-control" name="email" placeholder="Email" value="<?= Input::get('email')?>">
         </div>
@@ -124,7 +120,7 @@
     	  </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
         <input type="hidden" name="token" value="<?= Token::generate(); ?>">
-    	  <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
+    	  <p class="mt-5 mb-3 text-muted">&copy; 2017-<?= date('Y'); ?></p>
     </form>
 </body>
 </html>

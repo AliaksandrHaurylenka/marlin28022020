@@ -3,6 +3,7 @@
 
   $user = new User;
 
+  $errors = null;
 
   if(Input::exists()){
     if(Token::check(Input::get('token'))){
@@ -35,14 +36,14 @@
             [
               'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT)))
             ]);
-            Session::flash('success', 'Пароль обновлен!');
+            Session::flash('success', 'Ваш пароль обновлен!');
             Redirect::to('index.php');
         } else {
           echo "Пароль старый не совпадает!";
         }
       } else {
         foreach($validation->errors() as $error){
-          echo $error . '<br>';
+          $errors = $validation->errors();
         }
       }
     }
@@ -83,7 +84,7 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             <li class="nav-item">
-              <a href="profile.html" class="nav-link">Профиль</a>
+              <a href="profile.php" class="nav-link">Профиль</a>
             </li>
             <a href="logout.php" class="nav-link">Выйти</a>
           </li>
@@ -94,16 +95,19 @@
    <div class="container">
      <div class="row">
        <div class="col-md-8">
-         <h1>Изменить пароль</h1>
-         <div class="alert alert-success">Пароль обновлен</div>
-         
-         <div class="alert alert-danger">
-           <ul>
-             <li>Ошибка валидации</li>
-           </ul>
-         </div>
+         <h1>Изменить пароль</h1>         
+         <?php if($errors): ?>
+          <div class="alert alert-danger">
+            <ul>
+              <?php foreach($errors as $error): ?>
+                <li><?= $error; ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        <?php endif; ?>
+
          <ul>
-           <li><a href="profile.html">Изменить профиль</a></li>
+           <li><a href="profile.php">Изменить профиль</a></li>
          </ul>
          <form action="" method="post" class="form">
            <div class="form-group">

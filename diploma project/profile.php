@@ -1,6 +1,8 @@
 <?php
   require_once('init.php');
 
+  $errors = null;
+
   $user = new User;
 
   if(Input::exists()){
@@ -28,11 +30,11 @@
           'name' => strip_tags(trim(Input::get('name'))),
           'status' => strip_tags(trim(Input::get('status')))
         ]);
-        // Session::flash('success', 'Вы зарегистрированы!');
+        Session::flash('success', 'Ваш профиль обновлен!');
         Redirect::to('profile.php');
       } else {
         foreach($validation->errors() as $error){
-          echo $error . '<br>';
+          $errors = $validation->errors();
         }
       }
     }
@@ -87,12 +89,22 @@
        <div class="col-md-8">
          <h1>Профиль пользователя - <?= $user->data()->name; ?></h1>
          <div class="alert alert-success">Профиль обновлен</div>
+
+         <?php if(Session::exists('success')): ?>
+          <div class="alert alert-success">
+            <?= Session::flash('success'); ?>
+          </div>
+        <?php endif; ?>
          
-         <div class="alert alert-danger">
-           <ul>
-             <li>Ошибка валидации</li>
-           </ul>
-         </div>
+         <?php if($errors): ?>
+          <div class="alert alert-danger">
+            <ul>
+              <?php foreach($errors as $error): ?>
+                <li><?= $error; ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        <?php endif; ?>
          <ul>
            <li><a href="changepassword.php">Изменить пароль</a></li>
          </ul>

@@ -98,9 +98,8 @@
           <?php foreach ($users as $user): ?>
             <tr>          
               <th scope="row"><?= $user->id; ?></th>
-              <td><?= $user->name; ?></td>
+              <td><a href="user_profile.php?id=<?= $user->id; ?>"><?= $user->name; ?></a></td>
               <td><?= $user->email; ?></td>  
-              <!-- <td><?//= date('d/m/Y', $user->date); ?></td> -->
               <td><?= $user->date; ?></td>
             </tr>
           <?php endforeach; ?>

@@ -2,7 +2,6 @@
 require_once('init.php');
 
 $errors = null;
-$login = true;
 
 if(Input::exists()){
   if(Token::check(Input::get('token'))){
@@ -28,8 +27,6 @@ if(Input::exists()){
         Redirect::to('index.php');
       }else {
         Session::flash('flash-info', "Логин или пароль неверны!");
-        // $login = false;
-        // Redirect::to('login.php');
       }
     } else {
       $errors = $validation->errors();
