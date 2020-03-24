@@ -1,8 +1,9 @@
 <?php
-  require_once('../init.php');
+    require_once('../init.php');
 
-  $user = new User;
-  $users = $user->get('users');
+    $id = $_GET['id'];
+    $users = new User;
+    $user = $users->getOne("users", ['id', '=', $id]);
 ?>
 <!doctype html>
 <html lang="en">
@@ -34,7 +35,7 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             <li class="nav-item">
-              <a href="../profile.php" class="nav-link">Профиль</a>
+              <a href="../profile.html" class="nav-link">Профиль</a>
             </li>
             <a href="../logout.php" class="nav-link">Выйти</a>
           </li>
@@ -44,11 +45,7 @@
 
     
 
-    <div class="container">
-      <?php if($user->isLoggedIn()): ?>
-        <h1>Привет, <?= $user->data()->name; ?></h1>
-      <?php endif; ?>
-      
+    <div class="container"> 
       <div class="col-md-12">
         <h2>Пользователи</h2>
         <table class="table">
@@ -57,38 +54,15 @@
               <th>ID</th>
               <th>Имя</th>
               <th>Email</th>
-              <th>Действия</th>
             </tr>
           </thead>
 
           <tbody>
-
-            <?php foreach ($users as $user): ?>
               <tr>
                 <td><?= $user->id; ?></td>
                 <td><?= $user->name; ?></td>
                 <td><?= $user->email; ?></td>
-                <td>
-                  <a href="#" class="btn btn-success">Назначить администратором</a>
-                  <a href="user.php?id=<?= $user->id; ?>" class="btn btn-info">Посмотреть</a>
-                  <a href=ass="btn btn-primary">
-                    <a href="edit.php?id=<?= $user->id; ?>" class="btn btn-warning">Редактировать</a>
-                  <a href="delete.php?id=<?= $user->id; ?>" class="btn btn-danger" onclick="return confirm('Вы уверены?');">Удалить</a>
-                </td>
               </tr>
-            <?php endforeach; ?>
-
-            <tr>
-              <td>2</td>
-              <td>John</td>
-              <td>john@marlindev.ru</td>
-              <td>
-              	<a href="#" class="btn btn-danger">Разжаловать</a>
-                <a href="#" class="btn btn-info">Посмотреть</a>
-                <a href="#" class="btn btn-warning">Редактировать</a>
-                <a href="#" class="btn btn-danger" onclick="return confirm('Вы уверены?');">Удалить</a>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>
