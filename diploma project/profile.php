@@ -64,9 +64,11 @@
             <li class="nav-item">
               <a class="nav-link" href="index.php">Главная</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="users/index.php">Управление пользователями</a>
-            </li>
+            <?php if($user->isLoggedIn() && $user->data()->group_id == 2): ?>
+              <li class="nav-item">
+                <a class="nav-link" href="users/index.php">Управление пользователями</a>
+              </li>
+            <?php endif; ?>
           </ul>
 
           <ul class="navbar-nav">

@@ -2,9 +2,13 @@
 require_once('../init.php');
 
 $id = $_GET['id'];
-$users = new User;
-$user = $users->getOne("users", ['id', '=', $id]);
-
+$user = new User;
+if($user->data()->group_id != 2){
+  Session::flash('noAdmin', 'Вы не являетесь администратором сайта!');
+  Redirect::to('../index.php');
+}else {
+  $user = $user->getOne("users", ['id', '=', $id]);
+}
 
 if(Input::exists()){
   if(Token::check(Input::get('token'))){
@@ -26,7 +30,7 @@ if(Input::exists()){
 
     if($validation->passed()){
       $user = new User;
-      $user -> update('users', $id, [
+      $user->update('users', $id, [
         'name' => strip_tags(trim(Input::get('name'))),
         'status' => strip_tags(trim(Input::get('status'))),
       ]);

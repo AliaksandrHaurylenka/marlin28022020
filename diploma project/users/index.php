@@ -2,7 +2,12 @@
   require_once('../init.php');
 
   $user = new User;
-  $users = $user->get('users');
+  if($user->data()->group_id != 2){
+    Session::flash('noAdmin', 'Вы не являетесь администратором сайта!');
+    Redirect::to('../index.php');
+  }else {
+    $users = $user->get('users');
+  }
 ?>
 <!doctype html>
 <html lang="en">
@@ -69,7 +74,11 @@
                 <td><?= $user->name; ?></td>
                 <td><?= $user->email; ?></td>
                 <td>
-                  <a href="#" class="btn btn-success">Назначить администратором</a>
+                  <?php if($user->group_id == 1): ?>
+                    <a href="group.php?id=<?= $user->id; ?>&group=2" class="btn btn-success">Назначить администратором</a>
+                  <?php elseif($user->group_id == 2): ?>
+                    <a href="group.php?id=<?= $user->id; ?>&group=1" class="btn btn-danger">Разжаловать</a>
+                  <?php endif; ?>
                   <a href="user.php?id=<?= $user->id; ?>" class="btn btn-info">Посмотреть</a>
                   <a href=ass="btn btn-primary">
                     <a href="edit.php?id=<?= $user->id; ?>" class="btn btn-warning">Редактировать</a>
@@ -77,18 +86,6 @@
                 </td>
               </tr>
             <?php endforeach; ?>
-
-            <tr>
-              <td>2</td>
-              <td>John</td>
-              <td>john@marlindev.ru</td>
-              <td>
-              	<a href="#" class="btn btn-danger">Разжаловать</a>
-                <a href="#" class="btn btn-info">Посмотреть</a>
-                <a href="#" class="btn btn-warning">Редактировать</a>
-                <a href="#" class="btn btn-danger" onclick="return confirm('Вы уверены?');">Удалить</a>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>

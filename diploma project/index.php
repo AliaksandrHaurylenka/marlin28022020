@@ -29,7 +29,7 @@
           <li class="nav-item">
             <a class="nav-link" href="index.php">Главная</a>
           </li>
-          <?php if($user->isLoggedIn()): ?>
+          <?php if($user->isLoggedIn() && $user->data()->group_id == 2): ?>
             <li class="nav-item">
               <a class="nav-link" href="users/index.php">Управление пользователями</a>
             </li>
@@ -59,6 +59,9 @@
   <div class="container">
     <div class="alert alert-success" role="alert">
       <?= Session::flash('success'); ?>
+    </div>
+    <div class="alert alert-danger" role="alert">
+      <?= Session::flash('noAdmin'); ?>
     </div>
     <div class="row">
       <div class="col-md-12">
