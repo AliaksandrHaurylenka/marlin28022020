@@ -26,7 +26,7 @@
   
       
       if($validation->passed()){
-        $user -> update('users', $user->data()->id, [
+        $user->update('users', $user->data()->id, [
           'name' => strip_tags(trim(Input::get('name'))),
           'status' => strip_tags(trim(Input::get('status')))
         ]);
@@ -87,16 +87,15 @@
    <div class="container">
      <div class="row">
        <div class="col-md-8">
-         <h1>Профиль пользователя - <?= $user->data()->name; ?></h1>
-         <div class="alert alert-success">Профиль обновлен</div>
-
-         <?php if(Session::exists('success')): ?>
+        <h1>Профиль пользователя - <?= $user->data()->name; ?></h1>
+       
+        <?php if(Session::exists('success')): ?>
           <div class="alert alert-success">
             <?= Session::flash('success'); ?>
           </div>
         <?php endif; ?>
          
-         <?php if($errors): ?>
+        <?php if($errors): ?>
           <div class="alert alert-danger">
             <ul>
               <?php foreach($errors as $error): ?>
