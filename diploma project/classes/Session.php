@@ -24,7 +24,6 @@ class Session {
       $session = self::get($name);
       // var_dump($session); die;
       self::delete($name);
-      // var_dump($session); die;
       return $session;
     }else {
       self::put($name, $string);

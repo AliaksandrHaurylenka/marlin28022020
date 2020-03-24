@@ -1,6 +1,9 @@
 <?php
 require_once('init.php');
 
+$errors = null;
+$login = true;
+
 if(Input::exists()){
   if(Token::check(Input::get('token'))){
     $validate = new Validate();
@@ -23,12 +26,11 @@ if(Input::exists()){
       if($login){
         Redirect::to('index.php');
       }else {
-        echo "Вы не зарегестрированы!";
+        Session::flash('flash-info', "Логин или пароль неверны!");
+        $login = false;
       }
     } else {
-      foreach($validation->errors() as $error){
-        echo $error . '<br>';
-      }
+      $errors = $validation->errors();
     }
   }
   
@@ -53,20 +55,24 @@ if(Input::exists()){
     	  <img class="mb-4" src="images/apple-touch-icon.png" alt="" width="72" height="72">
     	  <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
 
-        <div class="alert alert-danger">
-          <ul>
-            <li>Ошибка валидации 1</li>
-            <li>Ошибка валидации 2</li>
-            <li>Ошибка валидации 3</li>
-          </ul>
-        </div>
+        <?php if($errors): ?>
+          <div class="alert alert-danger">
+            <ul>
+              <?php foreach($errors as $error): ?>
+                <li><?= $error; ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        <?php endif; ?>
 
-        <div class="alert alert-info">
-          Логин или пароль неверны
-        </div>
+        <?php if(!$login): ?>
+          <div class="alert alert alert-info">
+            <?= Session::flash('flash-info'); ?>
+          </div>
+        <?php endif; ?>
 
     	  <div class="form-group">
-          <input type="email" class="form-control" name="email" placeholder="Email">
+          <input type="email" class="form-control" name="email" placeholder="Email" value="<?= Input::get('email'); ?>">
         </div>
         <div class="form-group">
           <input type="password" class="form-control" name="password" placeholder="Пароль">

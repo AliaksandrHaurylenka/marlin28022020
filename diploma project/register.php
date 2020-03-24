@@ -1,58 +1,57 @@
 <?php
-require_once('init.php');
+  require_once('init.php');
 
-if(Input::exists()){
-  if(Token::check(Input::get('token'))){
-    $validate = new Validate();
+  $errors = null;
+  $register = false;
 
-    $validation = $validate -> check($_POST, [
-      'name' => [
-        'required' => true,
-        'min' => 2,
-        'max' => 100,
-      ],
-  
-      'email' => [
-        'required' => true,
-        'email' => true,
-        'max' => 50,
-        'unique' => 'users'
-      ],
-  
-      'password' => [
-        'required' => true,
-        'min' => 6
-      ],
-  
-      'repeadpassword' => [
-        'required' => true,
-        'matches' => 'password'
-      ],
+  if(Input::exists()){
+    if(Token::check(Input::get('token'))){
+      $validate = new Validate();
 
-      'date' => [
-        'required' => true,
-      ],
-    ]);
-  
-    if($validation->passed()){
-      $user = new User;
-      $user -> create('users', [
-        'name' => strip_tags(trim(Input::get('name'))),
-        'email' => strip_tags(trim(Input::get('email'))),
-        'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT))),
-        'date' => Input::get('date')
+      $validation = $validate -> check($_POST, [
+        'name' => [
+          'required' => true,
+          'min' => 2,
+          'max' => 100,
+        ],
+    
+        'email' => [
+          'required' => true,
+          'email' => true,
+          'max' => 50,
+          'unique' => 'users'
+        ],
+    
+        'password' => [
+          'required' => true,
+          'min' => 6
+        ],
+    
+        'repeadpassword' => [
+          'required' => true,
+          'matches' => 'password'
+        ],
+
+        'date' => [
+          'required' => true,
+        ],
       ]);
-      Session::flash('success', 'Вы зарегестрированы!');
-      Redirect::to('index.php');
-    } else {
-      foreach($validation->errors() as $error){
-        // echo $error . '<br>';
-        // var_dump($error . '<br>');
+    
+      if($validation->passed()){
+        $user = new User;
+        $user -> create('users', [
+          'name' => strip_tags(trim(Input::get('name'))),
+          'email' => strip_tags(trim(Input::get('email'))),
+          'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT))),
+          'date' => Input::get('date')
+        ]);
+        Session::flash('success', 'Вы зарегестрированы!');
+        $register = true;
+      } else {
+        $errors = $validation->errors();
       }
-    }
+    } 
   }
-  
-}
 ?>
 
 <!doctype html>
@@ -70,31 +69,36 @@ if(Input::exists()){
   </head>
 
   <body class="text-center">
+    
     <form action="" method="post" class="form-signin">
     	  <img class="mb-4" src="images/apple-touch-icon.png" alt="" width="72" height="72">
     	  <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
 
-        <div class="alert alert-danger">
-          <ul>
-            <li>Ошибка валидации 1</li>
-            <li>Ошибка валидации 2</li>
-            <li>Ошибка валидации 3</li>
-          </ul>
-        </div>
+        <?php if($errors): ?>
+          <div class="alert alert-danger">
+            <ul>
+              <?php foreach($errors as $error): ?>
+                <li><?= $error; ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        <?php endif; ?>
 
-        <div class="alert alert-success">
-          Успешный успех
-        </div>
+        <?php if($register): ?>
+          <div class="alert alert-success">
+            <?= Session::flash('success'); ?>
+          </div>
+        <?php endif; ?>
 
         <div class="alert alert-info">
           Информация
         </div>
 
     	  <div class="form-group">
-          <input type="email" class="form-control" name="email" placeholder="Email">
+          <input type="email" class="form-control" name="email" placeholder="Email" value="<?= Input::get('email')?>">
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" name="name" placeholder="Ваше имя">
+          <input type="text" class="form-control" name="name" placeholder="Ваше имя" value="<?= Input::get('name')?>">
         </div>
         <div class="form-group">
           <input type="password" class="form-control" name="password" placeholder="Пароль">
@@ -105,7 +109,7 @@ if(Input::exists()){
         </div>
 
         <div class="form-group">
-          <input type="date" name="date" class="form-control" id="date">
+          <input type="date" name="date" class="form-control" id="date" value="<?= Input::get('date')?>">
         </div>
 
     	  <div class="checkbox mb-3">

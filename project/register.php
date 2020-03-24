@@ -36,13 +36,14 @@ if(Input::exists()){
   
     if($validation->passed()){
       $user = new User;
-      $user -> create('users', [
+      $user->create('users', [
         'name' => strip_tags(trim(Input::get('name'))),
         'email' => strip_tags(trim(Input::get('email'))),
         'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT))),
         'date' => Input::get('date')
       ]);
       Session::flash('success', 'Вы зарегестрированы!');
+      // var_dump(Session::flash('success', 'Вы зарегестрированы!')); die;
       Redirect::to('/project');
     } else {
       foreach($validation->errors() as $error){
@@ -66,11 +67,11 @@ if(Input::exists()){
   <form action="" method="post">
     <div class="form-group">
       <label for="name">Name</label>
-      <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="<?= Input::get('name') ?>">
+      <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="<?= Input::get('name'); ?>">
     </div>
     <div class="form-group">
       <label for="exampleInputEmail1">Email address</label>
-      <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="<?= Input::get('email') ?>">
+      <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="<?= Input::get('email'); ?>">
     </div>
     <div class="form-group">
       <label for="exampleInputPassword1">Password</label>
