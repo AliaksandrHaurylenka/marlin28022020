@@ -2,8 +2,14 @@
     require_once('../init.php');
 
     $id = $_GET['id'];
-    $users = new User;
-    $user = $users->getOne("users", ['id', '=', $id]);
+    $user = new User;
+    if($user->data()->group_id != 2){
+      Session::flash('noAdmin', 'Вы не являетесь администратором сайта!');
+      Redirect::to('../index.php');
+    }else {
+      $user = $user->getOne("users", ['id', '=', $id]);
+    }
+    
 ?>
 <!doctype html>
 <html lang="en">
