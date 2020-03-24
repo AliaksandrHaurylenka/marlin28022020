@@ -59,7 +59,7 @@
 
   <div class="container">
     <?php if(Session::exists('success')): ?>
-      <div class="alert alert alert-success">
+      <div class="alert alert alert-success mt-3">
         <?= Session::flash('success'); ?>
       </div>
     <?php endif; ?>

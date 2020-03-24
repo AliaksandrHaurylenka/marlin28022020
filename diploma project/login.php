@@ -24,11 +24,12 @@ if(Input::exists()){
       $remember = (Input::get('remember')) === 'on' ? true : false;
       $login = $user->login(strip_tags(trim(Input::get('email'))), strip_tags(trim(Input::get('password'))), $remember);
       if($login){
+        Session::flash('success', "Вы вошли в систему!");
         Redirect::to('index.php');
       }else {
         Session::flash('flash-info', "Логин или пароль неверны!");
         // $login = false;
-        Redirect::to('login.php');
+        // Redirect::to('login.php');
       }
     } else {
       $errors = $validation->errors();
