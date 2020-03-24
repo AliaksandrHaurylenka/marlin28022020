@@ -2,7 +2,7 @@
   require_once('init.php');
 
   $errors = null;
-  $register = false;
+  // $register = false;
 
   if(Input::exists()){
     if(Token::check(Input::get('token'))){
@@ -45,8 +45,12 @@
           'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT))),
           'date' => Input::get('date')
         ]);
-        Session::flash('success', 'Вы зарегестрированы!');
-        $register = true;
+        Session::flash('success', 'Вы успешно зарегестрировались!');
+        // var_dump(Session::exists('success')); die;
+        // $register = true;
+        // Redirect::to('register.php');
+        Redirect::to('index.php');
+        // var_dump(Session::exists('success')); die;
       } else {
         $errors = $validation->errors();
       }
@@ -84,7 +88,8 @@
           </div>
         <?php endif; ?>
 
-        <?php if($register): ?>
+        <?//php if($register): ?>
+        <?php if(Session::exists('success')): ?>
           <div class="alert alert-success">
             <?= Session::flash('success'); ?>
           </div>

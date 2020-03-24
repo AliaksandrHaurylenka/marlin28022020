@@ -3,6 +3,7 @@
 
   $user = new User;
   $users = $user->get('users');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,12 +58,16 @@
     </nav>
 
   <div class="container">
-    <div class="alert alert-success" role="alert">
-      <?= Session::flash('success'); ?>
-    </div>
-    <div class="alert alert-danger" role="alert">
-      <?= Session::flash('noAdmin'); ?>
-    </div>
+    <?php if(Session::exists('success')): ?>
+      <div class="alert alert alert-success">
+        <?= Session::flash('success'); ?>
+      </div>
+    <?php endif; ?>
+    <?php if(Session::exists('noAdmin')): ?>
+      <div class="alert alert-danger" role="alert">
+        <?= Session::flash('noAdmin'); ?>
+      </div>
+    <?php endif; ?>
     <div class="row">
       <div class="col-md-12">
         <div class="jumbotron">

@@ -27,7 +27,8 @@ if(Input::exists()){
         Redirect::to('index.php');
       }else {
         Session::flash('flash-info', "Логин или пароль неверны!");
-        $login = false;
+        // $login = false;
+        Redirect::to('login.php');
       }
     } else {
       $errors = $validation->errors();
@@ -65,7 +66,7 @@ if(Input::exists()){
           </div>
         <?php endif; ?>
 
-        <?php if(!$login): ?>
+        <?php if(Session::exists('flash-info')): ?>
           <div class="alert alert alert-info">
             <?= Session::flash('flash-info'); ?>
           </div>

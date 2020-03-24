@@ -9,7 +9,6 @@
     }else {
       $user = $user->getOne("users", ['id', '=', $id]);
     }
-    
 ?>
 <!doctype html>
 <html lang="en">
