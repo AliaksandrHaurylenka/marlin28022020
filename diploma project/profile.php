@@ -31,7 +31,8 @@
           'status' => strip_tags(trim(Input::get('status')))
         ]);
         Session::flash('success', 'Ваш профиль обновлен!');
-        Redirect::to('profile.php');
+        Redirect::to('index.php');
+        // Redirect::to('profile.php');
       } else {
         foreach($validation->errors() as $error){
           $errors = $validation->errors();
@@ -88,12 +89,6 @@
      <div class="row">
        <div class="col-md-8">
         <h1>Профиль пользователя - <?= $user->data()->name; ?></h1>
-       
-        <?php if(Session::exists('success')): ?>
-          <div class="alert alert-success">
-            <?= Session::flash('success'); ?>
-          </div>
-        <?php endif; ?>
          
         <?php if($errors): ?>
           <div class="alert alert-danger">
@@ -104,6 +99,13 @@
             </ul>
           </div>
         <?php endif; ?>
+
+        <?php if(Session::exists('success')): ?>
+          <div class="alert alert alert-success mt-3">
+            <?= Session::flash('success'); ?>
+          </div>
+        <?php endif; ?>
+        
          <ul>
            <li><a href="changepassword.php">Изменить пароль</a></li>
          </ul>
