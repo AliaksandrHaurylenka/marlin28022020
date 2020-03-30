@@ -30,9 +30,8 @@
           'name' => strip_tags(trim(Input::get('name'))),
           'status' => strip_tags(trim(Input::get('status')))
         ]);
-        Session::flash('success', 'Ваш профиль обновлен!');
+        Session::flash('success', 'Ваш профиль успешно обновлен!');
         Redirect::to('index.php');
-        // Redirect::to('profile.php');
       } else {
         foreach($validation->errors() as $error){
           $errors = $validation->errors();
@@ -97,12 +96,6 @@
                 <li><?= $error; ?></li>
               <?php endforeach; ?>
             </ul>
-          </div>
-        <?php endif; ?>
-
-        <?php if(Session::exists('success')): ?>
-          <div class="alert alert alert-success mt-3">
-            <?= Session::flash('success'); ?>
           </div>
         <?php endif; ?>
         

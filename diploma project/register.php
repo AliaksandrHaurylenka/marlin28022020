@@ -46,7 +46,7 @@
           'date' => Input::get('date')
         ]);
         Session::flash('success', 'Вы успешно зарегестрировались!');
-        Redirect::to('register.php');
+        // Redirect::to('register.php');
         // Redirect::to('index.php');
       } else {
         $errors = $validation->errors();

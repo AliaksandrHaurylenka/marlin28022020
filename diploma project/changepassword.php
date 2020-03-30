@@ -36,7 +36,7 @@
             [
               'password' => strip_tags(trim(password_hash(Input::get('password'), PASSWORD_DEFAULT)))
             ]);
-            Session::flash('success', 'Ваш пароль обновлен!');
+            Session::flash('success', 'Ваш пароль успешно обновлен!');
             Redirect::to('index.php');
         } else {
           echo "Пароль старый не совпадает!";
@@ -107,8 +107,6 @@
             </ul>
           </div>
         <?php endif; ?>
-
-        <?= Session::flash('success', '<div class="alert alert-success">Пароль обновлен!</div>'); ?>
 
          <ul>
            <li><a href="profile.php">Изменить профиль</a></li>
